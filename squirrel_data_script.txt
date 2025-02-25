@@ -1,0 +1,54 @@
+CREATE OR REPLACE WAREHOUSE squirrel_warehouse
+WITH
+    WAREHOUSE_SIZE = 'XSMALL'  -- Options: XSMALL, SMALL, MEDIUM, etc.
+    AUTO_SUSPEND = 300         -- Auto-suspend after 5 minutes of inactivity
+    AUTO_RESUME = TRUE         -- Automatically resumes when a query is run
+    INITIALLY_SUSPENDED = TRUE;  -- Starts in a suspended state
+
+CREATE OR REPLACE DATABASE squirrel_data;
+
+USE DATABASE squirrel_data;
+
+CREATE OR REPLACE SCHEMA squirrel_schema;
+
+USE SCHEMA squirrel_schema;
+
+GRANT USAGE ON WAREHOUSE squirrel_warehouse TO ROLE SYSADMIN;
+GRANT USAGE ON DATABASE squirrel_data TO ROLE SYSADMIN;
+GRANT USAGE ON SCHEMA squirrel_schema TO ROLE SYSADMIN;
+GRANT SELECT ON ALL TABLES IN SCHEMA squirrel_schema TO ROLE SYSADMIN;
+
+USE WAREHOUSE squirrel_warehouse;
+USE DATABASE squirrel_data;
+USE SCHEMA squirrel_schema;
+
+-- Verify active warehouse
+SELECT CURRENT_WAREHOUSE();
+
+-- Verify active database
+SELECT CURRENT_DATABASE();
+
+-- Verify active schema
+SELECT CURRENT_SCHEMA();
+
+-------------------------------------------------------------------------------------
+
+-- Step 1: Create the table
+CREATE OR REPLACE TABLE SquirrelData (
+    AreaName STRING,
+    AreaID STRING,
+    ParkName STRING,
+    ParkID INT,
+    SquirrelID STRING,
+    PrimaryFurColor STRING,
+    HighlightsInFurColor STRING,
+    ColorNotes STRING,
+    Location STRING,
+    AboveGroundHeight STRING,
+    SpecificLocation STRING,
+    Activities STRING,
+    InteractionsWithHumans STRING,
+    OtherNotesObservations STRING,
+    SquirrelLatitude FLOAT,
+    SquirrelLongitude FLOAT
+);
